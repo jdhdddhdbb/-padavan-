@@ -7,5 +7,10 @@
  
 默认WiFi密码：1234567890
 #kvr协议不需要开r 会造成不支持r协议的手机漫游变慢
+
+丝滑kvr 带自动重启
 #https://github.com/padavanonly/padavan-4.4
+
+
+kvr 机型更多 
 #https://github.com/vb1980/Padavan-KVR
