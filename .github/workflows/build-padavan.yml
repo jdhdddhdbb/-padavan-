@@ -63,35 +63,6 @@ jobs:
         sed -i '/CONFIG_FIRMWARE_INCLUDE_SMARTDNS/d' .config
         sed -i '/CONFIG_FIRMWARE_INCLUDE_SRELAY/d' .config
         ######################################################################
-        ##修改主界面的版本号，将后面一小串小版本号去掉
-        echo "change defaults"
-        cd /opt/rt-n56u/trunk/
-        sudo sed -i '3c FIRMWARE_BUILDS_REV=' versions.inc
-
-        ##修改WIFI的地区，源码中默认2.4G是中国区，5G是美国区，统一改成中国区。
-        cd /opt/rt-n56u/trunk/user/shared/
-        sudo sed -i 's/"US"/"CN"/g' defaults.h
-
-        ##修改NTP时钟同步服务器；
-        sudo sed -i 's/"ntp1.aliyun.com"/"pool.ntp.org"/g' defaults.h
-        sudo sed -i 's/"2001:470:0:50::2"/"time.pool.aliyun.com"/g' defaults.h
-
-        ##修改DHCP分配时自带的域名，原来会有一个域叫lan，现在改为空白。
-        sudo sed -i 's/"lan"/""/g' defaults.c
-
-        ##无线高级设置中的参数，改为打开。默认状态应该为开（界面中有*号标识，表示默认状态），源码中改为了关，现在又将它开启。
-        sudo sed -i 's/"wl_APSDCapable", "0"/"wl_APSDCapable", "1"/g' defaults.c
-        sudo sed -i 's/"rt_APSDCapable", "0"/"rt_APSDCapable", "1"/g' defaults.c
-
-        ##系统高级设置中的参数，全部关闭，具体功能可以参照界面去调。
-        sudo sed -i 's/"sshd_enable", "1"/"sshd_enable", "0"/g' defaults.c
-        sudo sed -i 's/"lltd_enable", "1"/"lltd_enable", "0"/g' defaults.c
-        sudo sed -i 's/"crond_enable", "1"/"crond_enable", "0"/g' defaults.c
-        sudo sed -i 's/"watchdog_cpu", "1"/"watchdog_cpu", "0"/g' defaults.c
-
-        ##ppp拨号时，自动响应lcp请求的开关，这里关闭。
-        sudo sed -i 's/"wan_ppp_lcp", "1"/"wan_ppp_lcp", "0"/g' defaults.c
-
         sudo ./clear_tree
         sudo ./build_firmware_modify $TNAME 0
         sudo mv -f images/*.trx /opt/images/
