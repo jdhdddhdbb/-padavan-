@@ -12,5 +12,5 @@
 #https://github.com/padavanonly/padavan-4.4
 
 
-kvr 机型更多 
+丝滑kvr 带自动重启 机型更多 
 #https://github.com/vb1980/Padavan-KVR
