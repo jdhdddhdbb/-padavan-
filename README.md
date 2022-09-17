@@ -15,5 +15,4 @@
 丝滑kvr 带自动重启 内存占用低
 #https://github.com/vb1980/Padavan-KVR
 
-
-https://github.com/MeIsReallyBa/padavan-4.4
+https://github.com/vb1980/padavan-4.4
