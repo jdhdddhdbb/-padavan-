@@ -1,4 +1,4 @@
-#Padava4.4自编译
+#Padavan自编译
 
  
 默认地址：192.168.2.1
@@ -9,8 +9,6 @@
 #kvr协议不需要开r 会造成不支持r协议的手机漫游变慢
 
 丝滑kvr 带自动重启
-#https://github.com/padavanonly/padavan-4.4
+https://github.com/padavanonly/rt-n56u
 
-
-丝滑kvr 带自动重启 内存占用低
-#https://github.com/vb1980/Padavan-KVR
+ubuntu-20.04编译
