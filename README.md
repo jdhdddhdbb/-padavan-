@@ -12,7 +12,5 @@
 https://github.com/padavanonly/rt-n56u
 
 ubuntu-20.04编译
-
-丝滑kvr 带自动重启 4.4版本 可设置插件 dns 科学上网等
-dns设置53端口自动接管dnsmasq
-https://github.com/MeIsReallyBa/padavan-4.4
+hanwckf
+https://github.com/hanwckf/rt-n56u
