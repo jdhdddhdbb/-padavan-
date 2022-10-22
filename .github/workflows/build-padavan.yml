@@ -32,7 +32,7 @@ jobs:
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
     - name: Clone source code
       run: |
-        git clone --depth=1 https://github.com/vb1980/Padavan-KVR.git /opt/rt-n56u
+        git clone --depth=1 https://github.com/padavanmaker/DNSPadavan.git /opt/rt-n56u
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
@@ -46,23 +46,20 @@ jobs:
         exit 1
         fi
         cp -f configs/templates/$TNAME.config .config
-        
-        #######最小化系统及更新设置#######################################################################
-        cp -f $GITHUB_WORKSPACE/asus_logo.png  user/www/n56u_ribbon_fixed/bootstrap/img/asus_logo.png   #替换logo
-        sed -i '/2011-2019/{s/2019/2022/}' user/www/Makefile    #过年好
-        sed -i '2c FIRMWARE_BUILDS_VER=202210' versions.inc     #更新版本
-        sed -i '3c FIRMWARE_BUILDS_REV=202210' versions.inc     #更新版本
-        sed -i '/INCLUDE/{s/=y/=n/}' .config                    #关闭所有INCLUDE
-        sed -i '/CONFIG_FIRMWARE_ENABLE/{s/=y/=n/}' .config     #关闭所有ENABLE
-        sed -i '/LANG_CN/{s/=n/=y/}' .config                    #设置默认语言为中文
-        sed -i '898,899d' user/rc/net.c                         #修复ios访问bug
-        echo "CONFIG_FIRMWARE_INCLUDE_SFE=y" >> .config
-        
-        ########重新配置smartdns#########################################################################
-        wget https://adrules.top/smart-dns.conf -O user/smartdns/ad.hosts
-        echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y" >> .config            #smartdns
-        echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config #adg DNS去AD
-        
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' .config
+        ################################################################################################
+        #因不同型号配置功能不一样，所以先把配置项删除，如果你自己要添加其他的，也要写上删除这一条，切记！！！
+        ################################################################################################
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n/g' .config
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_MENTOHUST=y/CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n/g' .config
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' .config
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_SRELAY=y/CONFIG_FIRMWARE_INCLUDE_SRELAY=n/g' .config
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n/g' .config
+        ######################################################################
+        #以下选项是定义你需要的功能（y=集成,n=忽略），重新写入到.config文件
+        ######################################################################
+        ##DNS服务##
+        echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config #adg DNS去AD        
         ######开始打包####################################################################################
         sudo ./build_firmware_modify $TNAME 0
         sudo mv -f images/*.trx /opt/images/
