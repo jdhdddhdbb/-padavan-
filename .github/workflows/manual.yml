@@ -1,4 +1,4 @@
-name: Build RM2100 R2100
+#修改TNAME: K2P-5.0 RM2100 MI-R3P中的K2P-5.0为你需要编译的型号，注意名称要与configs/templates/目录下的名字相同
 name: Build Padavan
 
 on: 
@@ -13,9 +13,11 @@ on:
 #    - cron: 0 8 * * 5
   watch:
     types: [started]
+
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
+    if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
     - name: Checkout
@@ -30,24 +32,21 @@ jobs:
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
     - name: Clone source code
       run: |
-        git clone --depth=1 https://github.com/padavanmaker/rt-n56u.git /opt/rt-n56u
+        git clone --depth=1 https://github.com/padavanmaker/DNSPadavan.git /opt/rt-n56u
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
     - name: Build Firmware
       env:
-        TNAME: "RM2100 MI-R3P K2P"
+        TNAME: MI-R3P
       run: |
-        cwd=`pwd`
-        CONFIG_TOOLCHAIN_DIR=${cwd//\//\\\/}\\/toolchain-mipsel
-        cd trunk
-        for m in $TNAME;
-        do
-        if [ ! -f configs/templates/$m.config ] ; then
-        echo "configs/templates/$m.config not found "
+        cd /opt/rt-n56u/trunk
+        if [ ! -f configs/templates/$TNAME.config ] ; then
+        echo "configs/templates/$TNAME.config not found "
         exit 1
         fi
-        cp -f configs/templates/$m.config .config
+        cp -f configs/templates/$TNAME.config .config
+        
         #####################################################################################
         sed -i '/CONFIG_FIRMWARE_INCLUDE_MENTOHUST/d' .config #删除配置项MENTOHUST
         sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER/d' .config #删除配置项SOFTETHERVPN
