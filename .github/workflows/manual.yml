@@ -1,18 +1,18 @@
 name: Build RM2100 R2100
+name: Build Padavan
 
 on: 
   release:
     types: [published]
-#  push:
-#    tags:
-#    - 'v*'
+  push:
+    tags:
+    - 'v*'
   #  branches: 
   #    - master
-  schedule:
-    - cron: 0 17 * * 4
-#  watch:
-#    types: [started]
-
+#  schedule:
+#    - cron: 0 8 * * 5
+  watch:
+    types: [started]
 jobs:
   build:
     runs-on: ubuntu-18.04
